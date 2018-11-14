@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-ll dist[50001];
+int dist[50001];
 
 #define gc getchar_unlocked
 
@@ -21,6 +21,7 @@ template<typename T> T getint() {
 	return val*(neg?-1:1);
 }
 
+int a[50001];
 main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(0);
@@ -28,29 +29,29 @@ main() {
 	
 	int n=getint<int>();
 	
-	vector<int> a(n);
 	for(int i=0;i<n;i++) {
 		a[i]=getint<int>();
 	}
 	
-	fill(dist, dist+50001, 1LL<<50);
+	fill(dist, dist+50001, 2*int(1e9));
 	
 	dist[0]=0;
 
-	priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<pair<ll,int>>> pq;
+	priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
 	pq.push({0,0});
 	
 	while(!pq.empty()){
-		pair<ll,int> tp=pq.top();
+		int tpfirst=pq.top().first;
+		int tpsecond=pq.top().second;
 		pq.pop();
 		
-		if(dist[tp.second]<tp.first) continue ;
+		if(dist[tpsecond]<tpfirst) continue ;
 				
-		for(int i=n-1;i>=0;--i) {
-			int nxt=(tp.second+a[i])%a[0];
-			int val=tp.first+a[i];
+		for(int i=0;i<n;++i) {
+			int nxt=(tpsecond+a[i])%a[0];
+			int val=tpfirst+a[i];
 			
-			if(dist[nxt]>val) {
+			if(val<=1000000000 && dist[nxt]>val) {
 				dist[nxt]=val;
 				pq.push({val, nxt});
 			}
